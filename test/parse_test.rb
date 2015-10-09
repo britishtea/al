@@ -11,7 +11,7 @@ test "case sensitivity" do |al|
   assert_equal al.pick("Da;Q=0.1, EN-gb;q=0.3, eN;q=0.2"), 2
 end
 
-test "whitespace" do |al|
+test "spaces" do
   al = Al.new
   al["da"]    = 1
   al["en-gb"] = 2
@@ -29,7 +29,7 @@ test "whitespace" do |al|
   assert_equal al.pick("da;q=0.1,en - gb ;q= 0. 3, e n;q=0.2"), 2
 end
 
-test "no language tags" do |al|
+test "no language tags" do
   al = Al.new
   al["da"] = 2
 

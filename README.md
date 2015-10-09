@@ -10,7 +10,7 @@ available languages.
 * Al respects quality values
 * Al respects language tag prefixes
 * Al ignores character case
-* Al ignores whitespace
+* Al ignores spaces (but not other whitespace)
 * Al makes an effort to put up with invalid `Accept-Language` headers
 * Al is fast!
 

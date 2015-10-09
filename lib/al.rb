@@ -74,12 +74,12 @@ class Al
 
   private
 
-  WHITESPACE = /\s+/.freeze
-  EMPTY      = "".freeze
+  SPACE = " ".freeze
+  EMPTY = "".freeze
 
   def preprocess(s)
-    result = s.downcase
-    result.gsub!(WHITESPACE, EMPTY)
+    result = s.tr(SPACE, EMPTY)
+    result.downcase!
 
     return result
   end
