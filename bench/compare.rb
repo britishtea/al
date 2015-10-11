@@ -19,13 +19,13 @@ require "http_accept_language"
 #
 # $ ruby -I lib bench/compare.rb
 # Calculating -------------------------------------
-#                #pick    11.023k i/100ms
-#         #strict_pick    16.459k i/100ms
-# http_accept_language     1.922k i/100ms
+#                #pick    11.211k i/100ms
+#         #strict_pick    16.810k i/100ms
+# http_accept_language     1.962k i/100ms
 # -------------------------------------------------
-#                #pick    119.096k (± 3.3%) i/s -    595.242k
-#         #strict_pick    188.546k (± 3.2%) i/s -    954.622k
-# http_accept_language     19.741k (± 3.0%) i/s -     99.944k
+#                #pick    122.474k (± 2.9%) i/s -    616.605k
+#         #strict_pick    192.978k (± 4.2%) i/s -    974.980k
+# http_accept_language     20.119k (± 3.3%) i/s -    102.024k
 
 al = Al.new
 al["en"] = "british english"

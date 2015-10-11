@@ -1,6 +1,12 @@
 require "al"
 require "cutest"
 
+test "no input" do
+  al = Al.new("en-gb", "british english")
+
+  assert_equal al.strict_pick(nil), ["en-gb", "british english"]
+end
+
 test "case sensitivity" do |al|
   al = Al.new
   al["dA"]    = 1

@@ -19,6 +19,10 @@ class Al
   end
 
   def pick(header)
+    unless header
+      return @languages[DEFAULT]
+    end
+
     high = 0.0
     best = nil
 
@@ -49,6 +53,10 @@ class Al
   end
 
   def strict_pick(header)
+    unless header
+      return @languages[DEFAULT]
+    end
+
     high = 0.0
     best = nil
 
