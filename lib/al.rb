@@ -93,10 +93,11 @@ class Al
   end
 
   def quality(tag, sem, len)
-    q       = tag[sem + 3, 10]
-    quality = q ? Float(q) : 1.0
+    q = tag[sem + 3, 10]
+
+    return q ? Float(q) : 1.0
   rescue ArgumentError
-    quality = 0.0
+    0.0
   end
 
   DEFAULT   = "*".freeze
