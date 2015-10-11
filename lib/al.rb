@@ -1,6 +1,6 @@
 class Al
-  def initialize(default = nil)
-    @languages = { DEFAULT => default }
+  def initialize(tag = nil, val = nil)
+    @languages = { DEFAULT => [tag, val] }
   end
 
   def []=(tag, val)
@@ -8,14 +8,14 @@ class Al
 
     tag.split(DASH).each_with_object("") do |bit, key|
       key.concat("-#{bit}")
-      @languages[key[1..-1]] ||= val
+      @languages[key[1..-1]] ||= [tag, val]
     end
 
-    @languages[tag] = val # ensure xx overwrites a previous xx-yy
+    @languages[tag] = [tag, val] # ensure xx overwrites a previous xx-yy
   end
 
   def [](tag)
-    @languages[preprocess(tag)]
+    @languages[preprocess(tag)][1]
   end
 
   def pick(header)
