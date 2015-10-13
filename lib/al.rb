@@ -1,6 +1,10 @@
 class Al
   def initialize(tag = nil, val = nil)
     @languages = { DEFAULT => [tag, val] }
+
+    if tag && val
+      self[tag] = val
+    end
   end
 
   def []=(tag, val)
