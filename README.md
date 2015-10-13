@@ -17,25 +17,29 @@ available languages.
 ## Usage
 
 ```ruby
+require "al"
+
 # Define the available languages and their values
-al          = Al.new(:greeting => "Hello")
+al          = Al.new("en", :greeting => "Hello")
 al["en-GB"] = { :greeting => "How do you do?" }
 al["en-US"] = { :greeting => "Howdy partner!" }
-al["en"]    = { :greeting => "Hi" }
 
 # Let Al make a sensible match
-match = al.pick("de-DE;q=0.5, de-AT;q=0.4, en-AU")
-match[:greeting] # => "Hello"
+lang, match = al.pick("de-DE;q=0.5, de-AT;q=0.4, en-AU")
+puts lang # => "en"
+puts match # => { :greeting => "Hello" }
 
-match = al.pick("en-AU;q=0.4, en-US:q=0.5")
-match[:greeting] # => "Howdy!"
+lang, match = al.pick("en-AU;q=0.4, en-US;q=0.5")
+puts lang # => "en-us"
+puts match # => { :greeting => "Howdy partner!" }
 
-match = al.pick("da")
-match[:greeting] # => "Hello"
+lang, match = al.pick("da")
+puts lang # => "en"
+puts match # => { :greeting => "Hello" }
 ```
 
-The default language is optional. Without a default language Al returns `nil` 
-if it can't find a match.
+The default language is optional. Without a default language Al returns `[nil, 
+nil]` if it can't find a match.
 
 ## Al and [RFC 2616]
 
