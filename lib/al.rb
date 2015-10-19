@@ -45,6 +45,11 @@ class Al
           if quality > high
             high = quality
             best = result
+            
+            if high >= 1.0
+              return best
+            end
+
             break
           end
         end
@@ -76,7 +81,10 @@ class Al
         if quality > high
           high = quality
           best = result
-          next
+          
+          if high >= 1.0
+            return best
+          end
         end
       end
     end
