@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name        = "bugger"
   s.version     = "0.1.0"
   s.licenses    = ["MIT"]
-  s.summary     = "Tiny Rack middleware for exception notifications"
+  s.summary     = "Al stands for Accept-Language"
   s.description = "Al picks the best match from an `Accept-Language` header " \
                   "given a set of available languages."
   s.authors     = ["Jip van Reijsen"]
