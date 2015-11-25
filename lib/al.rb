@@ -1,6 +1,6 @@
 class Al
   def initialize(tag = nil, val = nil)
-    @languages = { DEFAULT => [tag, val] }
+    @languages = { "*" => [tag, val] }
 
     if tag && val
       self[tag] = val
@@ -10,7 +10,7 @@ class Al
   def []=(tag, val)
     tag = preprocess(tag)
 
-    tag.split(DASH).each_with_object("") do |bit, key|
+    tag.split("-").each_with_object("") do |bit, key|
       key.concat("-#{bit}")
       @languages[key[1..-1]] ||= [tag, val]
     end
@@ -24,15 +24,15 @@ class Al
 
   def pick(header)
     unless header
-      return @languages[DEFAULT]
+      return @languages["*".freeze]
     end
 
     high = 0.0
     best = nil
 
-    preprocess(header).split(COMMA).each do |tag|
+    preprocess(header).split(",".freeze).each do |tag|
       len = tag.size
-      sem = tag.index(SEMICOLON) || len
+      sem = tag.index(";".freeze) || len
       pos = sem
       
       while pos
@@ -54,28 +54,28 @@ class Al
           end
         end
 
-        pos = tag.rindex(DASH, -(len - pos) - 1)
+        pos = tag.rindex("-".freeze, -(len - pos) - 1)
       end
     end
 
-    return best || @languages[DEFAULT]
+    return best || @languages["*".freeze]
   end
 
   def strict_pick(header)
     unless header
-      return @languages[DEFAULT]
+      return @languages["*".freeze]
     end
 
     high = 0.0
     best = nil
 
-    preprocess(header).split(COMMA).each do |tag|
-      sem    = tag.index(SEMICOLON) || tag.size
+    preprocess(header).split(",".freeze).each do |tag|
+      sem    = tag.index(";".freeze) || tag.size
       result = @languages[tag[0, sem]]
 
       if result
         len     = tag.size
-        sem     = tag.index(SEMICOLON) || len
+        sem     = tag.index(";".freeze) || len
         quality = quality(tag, sem, len)
 
         if quality > high
@@ -89,16 +89,13 @@ class Al
       end
     end
 
-    return best || @languages[DEFAULT]
+    return best || @languages["*".freeze]
   end
 
   private
 
-  SPACE = " ".freeze
-  EMPTY = "".freeze
-
   def preprocess(s)
-    result = s.tr(SPACE, EMPTY)
+    result = s.tr(" ".freeze, "".freeze)
     result.downcase!
 
     return result
@@ -111,9 +108,4 @@ class Al
   rescue ArgumentError
     0.0
   end
-
-  DEFAULT   = "*".freeze
-  COMMA     = ",".freeze
-  SEMICOLON = ";".freeze
-  DASH      = "-".freeze
 end
