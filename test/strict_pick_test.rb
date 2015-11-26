@@ -46,5 +46,5 @@ test "default value" do
   al = Al.new("en", "english")
   al["en-GB"] = "british english"
 
-  assert_equal al.pick("en-us"), ["en", "english"]
+  assert_equal al.strict_pick("en-us"), ["en", "english"]
 end
