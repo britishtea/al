@@ -1,5 +1,6 @@
 require "al"
 require "cutest"
+require "securerandom"
 
 test "no input" do
   al = Al.new("en-gb", "british english")
@@ -59,4 +60,14 @@ test "invalid quality values" do
   assert_equal al.strict_pick("en-gb;q=., en-us;q=0.8"), ["en-us", "american english"]
   assert_equal al.strict_pick("en-gb;q=.9, en-us;q=0.8"), ["en-gb", "british english"]
   assert_equal al.strict_pick("en-gb;q=aaa, en-us;q=0.8"), ["en-us", "american english"]
+end
+
+test "gibberish" do
+  al = Al.new("en-gb", "british english")
+
+  assert 1000.times.all? {
+    s = SecureRandom.random_bytes rand(1000)
+    
+    al.strict_pick(s) || raise("failed on: #{s}")
+  }
 end
