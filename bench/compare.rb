@@ -56,8 +56,8 @@ Benchmark.ips do |x|
   end
 
   x.report("http_accept_language") do
-     hal = HttpAcceptLanguage::Parser.new("en-gb, xx-xx-xx;q=0.5, yy-yy;q=0.4, zz;q=0.3, nl-NL")
-     hal.compatible_language_from([:en])
+    hal = HttpAcceptLanguage::Parser.new("en-gb, xx-xx-xx;q=0.5, yy-yy;q=0.4, zz;q=0.3, nl-NL")
+    hal.compatible_language_from([:en])
   end
 end
 
@@ -75,7 +75,7 @@ Benchmark.ips do |x|
   end
 
   x.report("http_accept_language") do
-     hal = HttpAcceptLanguage::Parser.new("xx-xx-xx;q=0.5, yy-yy;q=0.4, zz;q=0.3, nl-NL, en-gb")
-     hal.compatible_language_from([:en])
+    hal = HttpAcceptLanguage::Parser.new("xx-xx-xx;q=0.5, yy-yy;q=0.4, zz;q=0.3, nl-NL, en-gb")
+    hal.compatible_language_from([:en])
   end
 end
