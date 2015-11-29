@@ -21,24 +21,24 @@ require "http_accept_language"
 # Best case (matching tag with q=1.0 in first position):
 #
 # Calculating -------------------------------------
-#                #pick    20.497k i/100ms
-#         #strict_pick    16.722k i/100ms
-# http_accept_language     1.959k i/100ms
+#                #pick    21.602k i/100ms
+#         #strict_pick    16.547k i/100ms
+# http_accept_language     2.603k i/100ms
 # -------------------------------------------------
-#                #pick    246.558k (± 3.4%) i/s -      1.250M
-#         #strict_pick    195.797k (± 3.2%) i/s -    986.598k
-# http_accept_language     20.158k (± 2.5%) i/s -    101.868k
+#                #pick    261.734k (± 3.3%) i/s -      1.318M
+#         #strict_pick    183.094k (± 3.3%) i/s -    926.632k
+# http_accept_language     26.511k (± 3.4%) i/s -    132.753k
 #
 # Worst case (matching tag with q=1.0 in last position):
 #
 # Calculating -------------------------------------
-#                #pick    10.861k i/100ms
-#         #strict_pick    16.644k i/100ms
-# http_accept_language     1.976k i/100ms
+#                #pick    11.042k i/100ms
+#         #strict_pick    16.341k i/100ms
+# http_accept_language     2.636k i/100ms
 # -------------------------------------------------
-#                #pick    119.696k (± 3.2%) i/s -    608.216k
-#         #strict_pick    193.883k (± 4.0%) i/s -    981.996k
-# http_accept_language     19.359k (± 5.6%) i/s -     96.824k
+#                #pick    120.212k (± 3.0%) i/s -    607.310k
+#         #strict_pick    184.948k (± 3.0%) i/s -    931.437k
+# http_accept_language     27.210k (± 3.1%) i/s -    137.072k
 
 al = Al.new
 al["en"] = "british english"

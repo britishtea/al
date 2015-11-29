@@ -1,21 +1,21 @@
 class Al
-  def initialize(tag = nil, val = nil)
-    @languages = { "*" => [tag, val] }
+  def initialize(tag = nil, value = nil)
+    @languages = { "*" => [tag, value] }
 
-    if tag && val
-      self[tag] = val
+    if tag && value
+      self[tag] = value
     end
   end
 
-  def []=(tag, val)
+  def []=(tag, value)
     tag = preprocess(tag)
 
-    tag.split("-").each_with_object("") do |bit, key|
-      key.concat("-#{bit}")
-      @languages[key[1..-1]] ||= [tag, val]
+    tag.split("-").inject do |key, bit|
+      @languages[key] ||= [tag, value]
+      "#{key}-#{bit}"
     end
 
-    @languages[tag] = [tag, val] # ensure xx overwrites a previous xx-yy
+    @languages[tag] = [tag, value] # ensure xx overwrites a previous xx-yy
   end
 
   def [](tag)
@@ -23,89 +23,72 @@ class Al
   end
 
   def pick(header)
-    unless header
-      return @languages["*".freeze]
-    end
-
-    high = 0.0
-    best = nil
-
-    preprocess(header).split(",".freeze).each do |tag|
-      len = tag.size
-      sem = tag.index(";".freeze) || len
-      pos = sem
+    find(header) do |tag|
+      length = tag.length
+      dash_index = length
       
-      while pos
-        attempt = tag[0, pos]
-        result  = @languages[attempt]
+      while dash_index
+        result = @languages[tag[0, dash_index]]
 
         if result
-          quality = quality(tag, sem, len)
-
-          if quality > high
-            high = quality
-            best = result
-            
-            if high >= 1.0
-              return best
-            end
-
-            break
-          end
+          break result
         end
 
-        pos = tag.rindex("-".freeze, -(len - pos) - 1)
+        dash_index = tag.rindex("-".freeze, dash_index - length - 1)
       end
     end
-
-    return best || @languages["*".freeze]
   end
 
   def strict_pick(header)
-    unless header
-      return @languages["*".freeze]
-    end
-
-    high = 0.0
-    best = nil
-
-    preprocess(header).split(",".freeze).each do |tag|
-      sem    = tag.index(";".freeze) || tag.size
-      result = @languages[tag[0, sem]]
-
-      if result
-        len     = tag.size
-        sem     = tag.index(";".freeze) || len
-        quality = quality(tag, sem, len)
-
-        if quality > high
-          high = quality
-          best = result
-          
-          if high >= 1.0
-            return best
-          end
-        end
-      end
-    end
-
-    return best || @languages["*".freeze]
+    find(header) { |tag| @languages[tag] }
   end
 
   private
 
-  def preprocess(s)
-    result = s.tr(" ".freeze, "".freeze)
+  def find(header, &block)
+    best_quality = 0.0
+    best_result = nil
+
+    preprocess(header.to_s).split(",".freeze).each do |language_range|
+      tag, q = language_range.split(";".freeze, 2)
+
+      unless tag
+        next
+      end
+
+      result = yield(tag)
+
+      unless result
+        next
+      end
+
+      quality = quality(q)
+
+      if quality > best_quality
+        best_quality = quality
+        best_result = result
+
+        if quality >= 1.0
+          break result
+        end
+      end
+    end
+
+    return best_result || @languages["*".freeze]
+  end
+
+  def preprocess(header)
+    result = header.delete(" ".freeze)
     result.downcase!
 
     return result
   end
 
-  def quality(tag, sem, len)
-    q = tag[sem + 3, 10]
+  def quality(q)
+    if q.nil? || q.size < 2
+      return 1.0
+    end
 
-    return q ? Float(q) : 1.0
-  rescue ArgumentError
-    0.0
+    return q[2, 10].to_f
   end
 end
