@@ -1,5 +1,9 @@
 class Al
   def initialize(tag = nil, value = nil)
+    unless tag.nil?
+      tag = tag.downcase
+    end
+
     @languages = { "*" => [tag, value] }
 
     if tag && value
